@@ -1,4 +1,4 @@
-package generic_merge_sort_using_multithread;
+package MultiThreadedMergeSort;
 
 public class MergeSort<AnyType extends Comparable<? super AnyType>> implements Runnable {
 
@@ -11,7 +11,7 @@ public class MergeSort<AnyType extends Comparable<? super AnyType>> implements R
 		this.setDataset(dataset);
 		this.setStart(start);
 		this.setEnd(end);
-		this.setnumberOfThread(numberOfThread);
+		this.setNumberOfThread(numberOfThread);
 	}
 
 	public MergeSort(AnyType[] dataset) {
@@ -25,11 +25,11 @@ public class MergeSort<AnyType extends Comparable<? super AnyType>> implements R
 		return dataset;
 	}
 
-	public int getnumberOfThread() {
+	public int getNumberOfThread() {
 		return numberOfThread;
 	}
 
-	public void setnumberOfThread(int numberOfThread) {
+	public void setNumberOfThread(int numberOfThread) {
 		this.numberOfThread = numberOfThread;
 	}
 
@@ -53,10 +53,10 @@ public class MergeSort<AnyType extends Comparable<? super AnyType>> implements R
 		this.end = end;
 	}
 
-	public void mergesort(AnyType[] a, int i, int j, int numberOfThread) {
+	public void mergeSort(AnyType[] a, int i, int j, int numberOfThread) {
 
 		if (numberOfThread <= 1)
-			mergesort(a, i, j);
+			mergeSort(a, i, j);
 
 		if (j - i < 1)
 			return;
@@ -83,48 +83,46 @@ public class MergeSort<AnyType extends Comparable<? super AnyType>> implements R
 		}
 	}
 
-	public void mergesort(AnyType[] a, int i, int j) {
+	public void mergeSort(AnyType[] a, int i, int j) {
 		if (j - i < 1)
 			return;
 
 		int pivot = (i + j) / 2;
 
-		mergesort(a, i, pivot);
-		mergesort(a, pivot + 1, j);
+		mergeSort(a, i, pivot);
+		mergeSort(a, pivot + 1, j);
 		merge(a, i, pivot, j);
 
 	}
 
-	@SuppressWarnings("unchecked")
+	public void merge(AnyType a[], int leftStart, int pivot, int rightEnd) {
 
-	public void merge(AnyType a[], int leftstart, int pivot, int rightend) {
+		int leftEnd = pivot - leftStart + 1;
+		int rightStart = rightEnd - pivot;
 
-		int leftend = pivot - leftstart + 1;
-		int rightstart = rightend - pivot;
+		Object[] L = new Object[leftEnd];
+		Object[] R = new Object[rightStart];
 
-		Object[] L = new Object[leftend];
-		Object[] R = new Object[rightstart];
-
-		for (int i = 0; i < leftend; i++)
-			L[i] = a[leftstart + i];
-		for (int j = 0; j < rightstart; j++)
+		for (int i = 0; i < leftEnd; i++)
+			L[i] = a[leftStart + i];
+		for (int j = 0; j < rightStart; j++)
 			R[j] = a[pivot + j + 1];
 
 		int left = 0;
 		int right = 0;
-		int index = leftstart;
+		int index = leftStart;
 
-		while (left < leftend && right < rightstart) {
+		while (left < leftEnd && right < rightStart) {
 
 			if (((AnyType) L[left]).compareTo((AnyType) R[right]) <= 0)
 				a[index++] = (AnyType) L[left++];
 			else
 				a[index++] = (AnyType) R[right++];
 		}
-		while (left < leftend) {
+		while (left < leftEnd) {
 			a[index++] = (AnyType) L[left++];
 		}
-		while (right < rightstart) {
+		while (right < rightStart) {
 			a[index++] = (AnyType) R[right++];
 		}
 
@@ -133,7 +131,7 @@ public class MergeSort<AnyType extends Comparable<? super AnyType>> implements R
 	@Override
 	public void run() {
 		try {
-			mergesort(getDataset(), getStart(), getEnd(), getnumberOfThread());
+			mergeSort(getDataset(), getStart(), getEnd(), getNumberOfThread());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

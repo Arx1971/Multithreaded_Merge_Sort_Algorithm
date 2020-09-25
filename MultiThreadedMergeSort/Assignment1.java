@@ -1,18 +1,16 @@
-package generic_merge_sort_using_multithread;
+package MultiThreadedMergeSort;
 
 import java.util.Random;
 
 public class Assignment1 {
 
-	// confirmation number: ef19b6d1-96d3-46ec-8cba-b9fcc3accd92
+	final static int size = 20000;
 
-	final static int size = 10000000;
-
-	public static void main(String args[]) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException {
 
 		Random random = new Random();
 
-		Integer arr[] = new Integer[size];
+		Integer[] arr = new Integer[size];
 
 		for (int i = 0; i < size; i++) {
 			arr[i] = random.nextInt();
@@ -20,8 +18,8 @@ public class Assignment1 {
 
 		System.out.println("Input Unsorted Data: ");
 
-		for (int i = 0; i < arr.length; i++) {
-			System.out.println(arr[i]);
+		for (Integer value : arr) {
+			System.out.println(value);
 		}
 
 		Thread mainThread = new Thread(new MergeSort<Integer>(arr));
@@ -35,8 +33,8 @@ public class Assignment1 {
 		}
 		System.out.println("\nSorted Data: ");
 
-		for (int i = 0; i < arr.length; i++) {
-			System.out.println(arr[i]);
+		for (Integer integer : arr) {
+			System.out.println(integer);
 		}
 
 	}
